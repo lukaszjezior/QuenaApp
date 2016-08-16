@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="service_shop_header">Obsługa sklepu</string>
+    <string name="consultant_availability">Nasz konsultant jest dostępny do Państwa dyspozycji w następujących terminach:</string>
+	<string name="opening_hours_weekdays">poniedziałek - piątek: 10 - 18</string>
+	<string name="opening_hours_saturday">sobota: 10 - 14</string>
+	<string name="consultant_inaccessibility">Prosimy o wyrozumiałość w przypadku próby kontaktu w innych porach.</string>
+
+	<string name="phone_numbers_header">Numery telefonów</string>
+	<string name="phone_number_first">tel. kom. 727 679 971</string>
+	<string name="phone_number_second">tel. kom. 790 676 228</string>
+
+	<string name="email_header">Adresy e-mail</string>
+	<string name="email_first">sklep@e-struna.pl</string>
+	<string name="email_second">mfidecki@gmail.com</string>
+	
+	<string name="address_header">Adres sklepu</string>
+	<string name="address_street">ul. Lubelska 52A</string>
+	<string name="address_town">21-100 Lubartów</string>
+	
+	<string name="bank_account_header">Dane konta bankowego</string>
+	<string name="bank_account_number">mBank: 93 1140 2004 0000 3502 6696 4463</string>
+	
+	<string name="office_address_name">STRUNA S.C</string>
+	<string name="office_address_owners">Tomasz Brogowski, Marcin Fidecki</string>
+	<string name="office_address_street">Kozubszczyzna 37H</string>
+	<string name="office_address_town">21-030 Motycz</string>
+</resources>

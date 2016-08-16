@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="service_shop_header">Shop service</string>
+    <string name="consultant_availability">Our consultant is available on the following dates:</string>
+	<string name="opening_hours_weekdays">monday - friday: 10 - 18</string>
+	<string name="opening_hours_saturday">saturday: 10 - 14</string>
+	<string name="consultant_inaccessibility">Please be forgiving in case contacting us in other time.</string>
+
+	<string name="phone_numbers_header">Phone numbers</string>
+	<string name="phone_number_first">phone: 727 679 971</string>
+	<string name="phone_number_second">phone: 790 676 228</string>
+
+	<string name="email_header">E-mail addresses</string>
+	<string name="email_first">sklep@e-struna.pl</string>
+	<string name="email_second">mfidecki@gmail.com</string>
+	
+	<string name="address_header">Address shop</string>
+	<string name="address_street">Lubelska 52A Street</string>
+	<string name="address_town">Lubartów 21-100</string>
+	
+	<string name="bank_account_header">Bank account information</string>
+	<string name="bank_account_number">mBank: 93 1140 2004 0000 3502 6696 4463</string>
+	
+	<string name="office_address_name">STRUNA S.C</string>
+	<string name="office_address_owners">Tomasz Brogowski, Marcin Fidecki</string>
+	<string name="office_address_street">Kozubszczyzna 37H Street</string>
+	<string name="office_address_town">Motycz 21-030</string>
+</resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pl.quenaapp"
+    android:versionCode="3"
+    android:versionName="1.11" >
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="pl.quenaapp.activities.MainActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:icon="@drawable/news_white"
+            android:name="pl.quenaapp.activities.NewsActivity"
+            android:label="@string/activity_news_name" >
+        </activity>
+        <activity
+            android:icon="@drawable/categories_white"
+            android:name="pl.quenaapp.activities.CategoryActivity"
+            android:launchMode="singleInstance"
+            android:label="@string/activity_categories_name" >
+        </activity>
+        <activity
+            android:icon="@drawable/product_list_white"
+            android:name="pl.quenaapp.activities.ProductListActivity"
+            android:launchMode="singleInstance"
+            android:label="@string/activity_product_list_name" >
+        </activity>
+        <activity
+            android:icon="@drawable/product_details_white"
+            android:name="pl.quenaapp.activities.ProductDetailsActivity"
+            android:label="@string/activity_product_details_name" >
+        </activity>
+        <activity
+            android:icon="@drawable/photo_white"
+            android:name="pl.quenaapp.activities.ProductPhotoActivity"
+            android:label="@string/activity_product_photo_name" >
+        </activity>
+        <activity
+            android:icon="@drawable/description_white"
+            android:name="pl.quenaapp.activities.ProductDescriptionActivity"
+            android:label="@string/activity_product_description_name" >
+        </activity>
+        <activity
+            android:icon="@drawable/contact_white"
+            android:name="pl.quenaapp.activities.ContactActivity"
+            android:label="@string/activity_contact_name" >
+        </activity>
+        <service android:name="pl.quenaapp.services.NewsIntentService"></service>
+        <service android:name="pl.quenaapp.services.CategoryIntentService"></service>
+        <service android:name="pl.quenaapp.services.ProductListIntentService"></service>
+        <service android:name="pl.quenaapp.services.ProductDetailsIntentService"></service>
+    </application>
+
+</manifest>
