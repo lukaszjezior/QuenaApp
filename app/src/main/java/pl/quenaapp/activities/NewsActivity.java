@@ -38,10 +38,9 @@ public class NewsActivity extends Activity {
 	private LinearLayout progressLayout, noInternetLayout, noProductsLayout;
 	private ListView newsListView;
 	private String TAG;
-	private String[] newsTableReturnedFromService;
+	private ArrayList<Product> products;
 
 	private ConnectionService cm = new ConnectionService(this);
-	private ArrayList<Product> newsList = new ArrayList<Product>();
 	private SharedPreferences shPref;
 	private SharedPreferencesManager shPrefManager;
 	private VisibilityManager visibilityManager = new VisibilityManager();
@@ -65,38 +64,36 @@ public class NewsActivity extends Activity {
 		if (checker.checkAvailabilityOfInternetConnection() == true) {
 			boolean tmp = shPrefManager.getNewsLoadedVar();
 			if (shPrefManager.getNewsLoadedVar() == true) {
-				// stworzenie listy i wyœwietlenie produktów
-				newsTableReturnedFromService = savedInstanceState
-						.getStringArray("tablicaNowosci");
-				convertNewsTableToNewsList();
+				// stworzenie listy i wyÅ›wietlenie produktÃ³w
+				products = savedInstanceState.getParcelableArrayList("tablicaNowosci");
 
 				ArrayAdapter<Product> newsAdapter = new NewsAdapter();
-				if (checker.checkAvailabilityOfProducts(newsList) == true) {
+				if (products.size() > 1) {
 					visibilityManager.showProductsListView(noProductsLayout, progressLayout, noInternetLayout, newsListView);
 					newsListView.setAdapter(newsAdapter);
 					handlingButtons();
-				} else if (checker.checkAvailabilityOfProducts(newsList) == false) {
+				} else {
 					visibilityManager.showNoProductsLayout(noProductsLayout, progressLayout, noInternetLayout, newsListView);
 				}
 			} else {
 				if (checker.checkThatServiceIsWorking(newsIntentService) == true) {
-					// ustaw kó³eczka loading
+					// ustaw kÃ³eczka loading
 					visibilityManager.showLoadingLayout(noProductsLayout, progressLayout, noInternetLayout, newsListView);
 
-					// uruchom broadcast receiver i ka¿ mu czekaæ na tablicê
+					// uruchom broadcast receiver i kaÅ¼ mu czekaÄ‡ na tablicÄ™
 					newsBroadcastReceiver = new NewsBroadcastReceiver();
 					IntentFilter filter = new IntentFilter(
 							ACTION_DOWNLOADED_NEWS);
 					registerReceiver(newsBroadcastReceiver, filter);
 				} else if (checker.checkThatServiceIsWorking(newsIntentService) == false) {
-					// ustaw kó³eczka loading
+					// ustaw kÃ³Å‚eczka loading
 					visibilityManager.showLoadingLayout(noProductsLayout, progressLayout, noInternetLayout, newsListView);
 
 					// uruchom serwis i rozpocznij pobieranie danych
 					startService(new Intent(getBaseContext(),
 							NewsIntentService.class));
 
-					// uruchom broadcast receiver i ka¿ mu czekaæ na tablicê
+					// uruchom broadcast receiver i kaÅ¼ mu czekaÄ‡ na tablicÄ™
 					newsBroadcastReceiver = new NewsBroadcastReceiver();
 					IntentFilter filter = new IntentFilter(
 							ACTION_DOWNLOADED_NEWS);
@@ -123,33 +120,31 @@ public class NewsActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ACTION_DOWNLOADED_NEWS)) {
-				Log.i(TAG, "odebrano receiverem akcjê pobrania nowosci");
+				Log.i(TAG, "odebrano receiverem akcjï¿½ pobrania nowosci");
 				// zapis tablicy
 				Bundle newsServiceBundle = intent.getExtras();
-				newsTableReturnedFromService = newsServiceBundle
-						.getStringArray("DOWNLOADED_CONTENT");
+				products = newsServiceBundle.getParcelableArrayList("DOWNLOADED_CONTENT");
 
-				// flaga ¿e wczytano dane na true
+				// flaga ï¿½e wczytano dane na true
 				shPrefManager.setNewsLoadedVar();
 				Log.i(TAG, shPrefManager.getNewsLoadedVar().toString());
 				if (checker.checkThatServiceIsWorking(newsIntentService))
 					stopService(new Intent(getBaseContext(),
 							NewsIntentService.class));
 
-				// stworzenie listy i wyœwietlenie produktów
-				// jeœli tablica jest null to znaczy, ¿e nie powiod³o siê
-				// wczytywanie z internetu(wyœwietlamy ca³y czas
-				// kó³eczko loading)
-				if (newsTableReturnedFromService != null) {
-					convertNewsTableToNewsList();
+				// stworzenie listy i wyï¿½wietlenie produktï¿½w
+				// jeï¿½li tablica jest null to znaczy, ï¿½e nie powiodï¿½o siï¿½
+				// wczytywanie z internetu(wyï¿½wietlamy caï¿½y czas
+				// kï¿½eczko loading)
+				if (products != null) {
 
-					// sprawdzenie czy s¹ produkty
-					if (checker.checkAvailabilityOfProducts(newsList) == true) {
+					// sprawdzenie czy sa produkty
+					if (products.size() > 1) {
 						ArrayAdapter<Product> newsAdapter = new NewsAdapter();
 						newsListView.setAdapter(newsAdapter);
 						visibilityManager.showProductsListView(noProductsLayout, progressLayout, noInternetLayout, newsListView);
 						handlingButtons();
-					} else if (checker.checkAvailabilityOfProducts(newsList) == false) {
+					} else {
 						visibilityManager.showNoProductsLayout(noProductsLayout, progressLayout, noInternetLayout, newsListView);
 					}
 
@@ -165,27 +160,7 @@ public class NewsActivity extends Activity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		Log.i(TAG, "wywolano onsaveinstancestate");
-		outState.putStringArray("tablicaNowosci", newsTableReturnedFromService);
-	}
-
-	private void convertNewsTableToNewsList() {
-		for (int i = 0; i < newsTableReturnedFromService.length; i++) {
-			String[] tmp = newsTableReturnedFromService[i].split("---------");
-
-			// tmp[0] = produktid
-			// tmp[1] = index
-			// tmp[2] = zdjecie
-			// tmp[3] = nazwa
-			// tmp[4] = cena
-			// tmp[5] = opis_mini
-			newsList.add(new Product(Integer.parseInt(tmp[0]), tmp[1],
-					tmp[2], tmp[3], Double.parseDouble(tmp[4]), tmp[5]));
-			Log.i(TAG, newsList.get(i).getProductId() + " "
-					+ newsList.get(i).getIndex() + " "
-					+ newsList.get(i).getPathToPhoto() + " "
-					+ newsList.get(i).getName() + " "
-					+ newsList.get(i).getClass() + " ");
-		}
+		outState.putParcelableArrayList("tablicaNowosci", products);
 	}
 
 	private void handlingButtons() {
@@ -194,16 +169,16 @@ public class NewsActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View viewClicked,
 					int position, long id) {
 
-				Product clickedNews = newsList.get(position);
+				Product clickedNews = products.get(position);
 
 				int idProduktu = clickedNews.getProductId();
 				String link = cm.getSerwer()
 						+ clickedNews.getPathToPhoto();
 				String name = clickedNews.getName();
 
-				Log.i(TAG, "Id klikniêtego pokoju: " + idProduktu);
+				Log.i(TAG, "Id klikniï¿½tego pokoju: " + idProduktu);
 				Log.i(TAG, "Opis: " + name);
-				Log.i(TAG, "Link do zdjêcia: " + link);
+				Log.i(TAG, "Link do zdjï¿½cia: " + link);
 
 				Intent productDetailsIntent = new Intent(NewsActivity.this,
 						ProductDetailsActivity.class);
@@ -229,7 +204,7 @@ public class NewsActivity extends Activity {
 		ImageLoader imageLoader = new ImageLoader(NewsActivity.this);
 
 		public NewsAdapter() {
-			super(NewsActivity.this, R.layout.activity_product, newsList);
+			super(NewsActivity.this, R.layout.activity_product, products);
 		}
 
 		@Override
@@ -241,7 +216,7 @@ public class NewsActivity extends Activity {
 						R.layout.activity_product, parent, false);
 			}
 
-			product = newsList.get(position);
+			product = products.get(position);
 
 			index = (TextView) itemView
 					.findViewById(R.id.product_textViewIndex);
@@ -256,7 +231,7 @@ public class NewsActivity extends Activity {
 			price.setText(getString(R.string.product_price) + ": " + String.valueOf(product.getPrice())
 					+ " " + getString(R.string.product_coinage));
 
-			String url = cm.getSerwer() + product.getPathToPhoto();
+			String url = product.getPathToPhoto();
 			Log.i(TAG, url);
 
 			imageLoader.DisplayImage(url, imageView);
@@ -269,7 +244,7 @@ public class NewsActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		Log.i(TAG, "wciœniêto back");
+		Log.i(TAG, "wciï¿½niï¿½to back");
 		shPrefManager.resetNewsLoadedVar();
 		finish();
 	}

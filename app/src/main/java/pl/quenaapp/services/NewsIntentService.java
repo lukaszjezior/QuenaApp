@@ -1,20 +1,25 @@
 package pl.quenaapp.services;
 
 import pl.quenaapp.activities.NewsActivity;
+import pl.quenaapp.model.Product;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
- * Klasy IntentService'ów s¹ stworzone po to, aby podczas wczytywania danych, mo¿na by³o obróciæ
- * ekran bez wykrzaczenia aktywnoœci. 
+ * Klasy IntentService'ï¿½w sï¿½ stworzone po to, aby podczas wczytywania danych, moï¿½na byï¿½o obrï¿½ciï¿½
+ * ekran bez wykrzaczenia aktywnoï¿½ci. 
  */
 
 public class NewsIntentService extends IntentService {
 
 	ConnectionService cm = new ConnectionService(this);
-	String[] newsTab = null;
+	ArrayList<Product> productList = null;
 
 	private String TAG;
 
@@ -24,23 +29,23 @@ public class NewsIntentService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.i(TAG, "uruchomiono metodê onHandleIntent");
+		Log.i(TAG, "uruchomiono metode onHandleIntent");
 
 		try {
-			newsTab = cm.getNews();
+			productList = cm.getNews();
 		} catch (Exception e) {
 			Log.i(TAG, "problem z internetem podczas pobierania danych");
-			newsTab = null;
+			productList = null;
 		}
 
-		Log.i(TAG, "po pobraniu nowoœci");
+		Log.i(TAG, "po pobraniu nowosci");
 
 		Intent newsIntent = new Intent(NewsActivity.ACTION_DOWNLOADED_NEWS);
 		Bundle newsBundle = new Bundle(2);
-		newsBundle.putStringArray("DOWNLOADED_CONTENT", newsTab);
+		newsBundle.putParcelableArrayList("DOWNLOADED_CONTENT", productList);
 		newsIntent.putExtras(newsBundle);
 		sendBroadcast(newsIntent);
-		Log.i(TAG, "intencja wys³ana na broadcast");
+		Log.i(TAG, "intencja wyslana na broadcast");
 		stopSelf();
 	}
 

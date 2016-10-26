@@ -25,6 +25,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import pl.quenaapp.model.Product;
+
 public class ConnectionService {
 
 	private Context context;
@@ -40,7 +42,7 @@ public class ConnectionService {
 	public String getSerwer() {
 		return server;
 	}
-	
+
 	public String[] getProductsByCategoryId(int categoryId) {
 		String resultString = "";
 		InputStream inputStream = null;
@@ -57,10 +59,10 @@ public class ConnectionService {
 			HttpResponse response = httpclient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
 			inputStream = entity.getContent();
-			Log.i(TAG, "Nawi�zano po��czenie http");
+			Log.i(TAG, "Nawi�zano po��czenie http");
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.i(TAG, "Problem z po��czeniem http");
+			Log.i(TAG, "Problem z po��czeniem http");
 		}
 
 		try {
@@ -73,7 +75,7 @@ public class ConnectionService {
 			}
 			inputStream.close();
 			resultString = sb.toString();
-			Log.i(TAG, "Zczytano list� budynk�w");
+			Log.i(TAG, "Zczytano list� budynk�w");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.i(TAG, "Problem z czytaniem danych");
@@ -100,10 +102,10 @@ public class ConnectionService {
 			HttpResponse response = httpclient.execute(http);
 			HttpEntity entity = response.getEntity();
 			isr = entity.getContent();
-			Log.i(TAG, "Nawi�zano po��czenie http");
+			Log.i(TAG, "Nawi�zano po��czenie http");
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.i(TAG, "Problem z po��czeniem http");
+			Log.i(TAG, "Problem z po��czeniem http");
 		}
 
 		try {
@@ -116,7 +118,7 @@ public class ConnectionService {
 			}
 			isr.close();
 			resultString = sb.toString();
-			Log.i(TAG, "Zczytano list� budynk�w");
+			Log.i(TAG, "Zczytano list� budynk�w");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.i(TAG, "Problem z czytaniem danych");
@@ -126,7 +128,7 @@ public class ConnectionService {
 
 		return resultTab;
 	}
-
+	/*
 	public String[] getNews() {
 		String resultString = "";
 		InputStream isr = null;
@@ -138,10 +140,10 @@ public class ConnectionService {
 			HttpResponse response = httpclient.execute(http);
 			HttpEntity entity = response.getEntity();
 			isr = entity.getContent();
-			Log.i(TAG, "Nawi�zano po��czenie http");
+			Log.i(TAG, "Nawi�zano po��czenie http");
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.i(TAG, "Problem z po��czeniem http");
+			Log.i(TAG, "Problem z po��czeniem http");
 		}
 
 		try {
@@ -154,17 +156,17 @@ public class ConnectionService {
 			}
 			isr.close();
 			resultString = sb.toString();
-			Log.i(TAG, "Zczytano list� budynk�w");
+			Log.i(TAG, "Zczytano list� budynk�w");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.i(TAG, "Problem z czytaniem danych");
 		}
 
 		String[] resultTab = deleteFirstAndLastElementInTable(resultString.split("/////////"));
-		Log.i(TAG, "Pobrano list� nowo�ci");
+		Log.i(TAG, "Pobrano list� nowo�ci");
 		return resultTab;
 	}
-
+	*/
 	private String[] deleteFirstAndLastElementInTable(String[] tableToProcess) {
 		String[] tableToReturn = new String[tableToProcess.length - 2];
 
@@ -193,10 +195,23 @@ public class ConnectionService {
 		}
 
 		if (imageToReturn == null) {
-			Log.i(TAG, "Nie uda�o si� pobra� obrazu z linku: " + imageURL);
+			Log.i(TAG, "Nie uda�o si� pobra� obrazu z linku: " + imageURL);
 		}
 
 		return imageToReturn;
+	}
+
+
+	public ArrayList<Product> getNews() {
+		ArrayList<Product> products = new ArrayList<Product>();
+		products.add(new Product(0, "STRUNY", "http://quena.pl/220-large_default/daddario-ej27n-12.jpg", "DADDARIO EJ27N 1/2", 25.00, "D’Addario Classics struny uczniowskie, rozmiar 1/2 naciąg średni. Wszystkie struny wiolinowe są wyrównywane przy użyciu prawnie zastrzeżonego procesu szlifowania bezkłowego. Nieprześcigniona kontrola regularności, przekroju oraz stałej średnicy gwarantuje absolutnie perfekcyjną intonację. Rektyfikowane struny znane są ze swego „ciepłego” brzmienia."));
+		products.add(new Product(1, "STRUNY", "http://quena.pl/220-large_default/daddario-ej27n-12.jpg", "DADDARIO EJ27N 1/2", 25.00, "D’Addario Classics struny uczniowskie, rozmiar 1/2 naciąg średni. Wszystkie struny wiolinowe są wyrównywane przy użyciu prawnie zastrzeżonego procesu szlifowania bezkłowego. Nieprześcigniona kontrola regularności, przekroju oraz stałej średnicy gwarantuje absolutnie perfekcyjną intonację. Rektyfikowane struny znane są ze swego „ciepłego” brzmienia."));
+		products.add(new Product(2, "STRUNY", "http://quena.pl/220-large_default/daddario-ej27n-12.jpg", "DADDARIO EJ27N 1/2", 25.00, "D’Addario Classics struny uczniowskie, rozmiar 1/2 naciąg średni. Wszystkie struny wiolinowe są wyrównywane przy użyciu prawnie zastrzeżonego procesu szlifowania bezkłowego. Nieprześcigniona kontrola regularności, przekroju oraz stałej średnicy gwarantuje absolutnie perfekcyjną intonację. Rektyfikowane struny znane są ze swego „ciepłego” brzmienia."));
+		products.add(new Product(3, "STRUNY", "http://quena.pl/220-large_default/daddario-ej27n-12.jpg", "DADDARIO EJ27N 1/2", 25.00, "D’Addario Classics struny uczniowskie, rozmiar 1/2 naciąg średni. Wszystkie struny wiolinowe są wyrównywane przy użyciu prawnie zastrzeżonego procesu szlifowania bezkłowego. Nieprześcigniona kontrola regularności, przekroju oraz stałej średnicy gwarantuje absolutnie perfekcyjną intonację. Rektyfikowane struny znane są ze swego „ciepłego” brzmienia."));
+		products.add(new Product(4, "STRUNY", "http://quena.pl/220-large_default/daddario-ej27n-12.jpg", "DADDARIO EJ27N 1/2", 25.00, "D’Addario Classics struny uczniowskie, rozmiar 1/2 naciąg średni. Wszystkie struny wiolinowe są wyrównywane przy użyciu prawnie zastrzeżonego procesu szlifowania bezkłowego. Nieprześcigniona kontrola regularności, przekroju oraz stałej średnicy gwarantuje absolutnie perfekcyjną intonację. Rektyfikowane struny znane są ze swego „ciepłego” brzmienia."));
+		products.add(new Product(5, "STRUNY", "http://quena.pl/220-large_default/daddario-ej27n-12.jpg", "DADDARIO EJ27N 1/2", 25.00, "D’Addario Classics struny uczniowskie, rozmiar 1/2 naciąg średni. Wszystkie struny wiolinowe są wyrównywane przy użyciu prawnie zastrzeżonego procesu szlifowania bezkłowego. Nieprześcigniona kontrola regularności, przekroju oraz stałej średnicy gwarantuje absolutnie perfekcyjną intonację. Rektyfikowane struny znane są ze swego „ciepłego” brzmienia."));
+
+		return products;
 	}
 
 }
